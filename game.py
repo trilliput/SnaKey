@@ -647,9 +647,9 @@ class SnaKeyGUI(tk.Tk):
             for x in range(self.game.width):
                 tile = self.game.tile_at(Pair(x, y))
                 tile.label = tk.Label(
-                    grid, height=1, width=1,
+                    grid, height=2, width=2,
                     textvariable=tile.key,
-                    font=('system', 9, 'bold'),)
+                    font=('system', 14, 'bold'),)
                 tile.label.grid(
                     row=y, column=x, ipadx=4,
                     padx=1, pady=1)
