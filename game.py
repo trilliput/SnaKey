@@ -913,9 +913,6 @@ class SnaKeyGUI(tk.Tk):
 
         # Change to the paused state:
         if self.pause_button['text'] == 'pause':
-            self.pause_button.configure(
-                text='un-pause',
-                bg='SystemHighlightText')
             # Disable player movement:
             self.unbind('<Key>')
             self.after_cancel(self.chaser_cancel_id)
@@ -924,9 +921,6 @@ class SnaKeyGUI(tk.Tk):
 
         # Change to the un-paused state:
         else:
-            self.pause_button.configure(
-                text='pause',
-                bg='SystemButtonText', )
             # Unfreeze player and enemy movement:
             self.bind('<Key>', self.move_player)
             self.chaser_cancel_id = self.after(800, self.move_chaser)
@@ -994,9 +988,6 @@ class SnaKeyGUI(tk.Tk):
         # Prevent un-pausing while player is dead:
         self.pause_button['state'] = 'disabled'
 
-        # Highlight the restart button:
-        self.restart_button['bg'] = 'SystemHighlightText'
-
     def update_cs(self, cs: str = None):
         """
         Updates all tiles based on the new color scheme.
@@ -1007,9 +998,6 @@ class SnaKeyGUI(tk.Tk):
         else:
             cs = _colors.color_schemes[cs]
             self.cs = cs
-
-        # Recolor the menu:
-        self.restart_button.configure(bg='SystemButtonText')
 
         # Recolor all tiles:
         self.grid.configure(cs['lines'])
