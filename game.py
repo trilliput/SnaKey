@@ -1,3 +1,4 @@
+import argparse
 from time import time
 from typing import List
 
@@ -1031,6 +1032,14 @@ class SnaKeyGUI(tk.Tk):
         self.game.runner_tile().color(cs['runner'])
 
 
+def parse_cli_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-w', '--grid-width',
+                        action='store', type=int, required=False, default=10,
+                        help='Width and height of the square grid')
+    return parser.parse_args()
+
 if __name__ == '__main__':
-    root = SnaKeyGUI(20)
+    arguments = parse_cli_arguments()
+    root = SnaKeyGUI(arguments.grid_width)
     root.mainloop()
