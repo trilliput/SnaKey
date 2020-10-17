@@ -9,6 +9,8 @@ Rules for defining languages:
 """
 
 lowercase = 'abcdefghijklmnopqrstuvwxyz'
+simple = ['jfhgdk',
+          'jfhgdkru']
 
 jpn_temp = [[consonant + vowel for vowel in 'aiueo']
             for consonant in ['', ] + list('kstnhmr')]
@@ -32,4 +34,6 @@ LANGUAGES = {
     'english lower': {l: l for l in lowercase},
     'japanese hiragana': {k: v for k, v in zip(hiragana, jpn_romanization)},
     'japanese katakana': {k: v for k, v in zip(katakana, jpn_romanization)},
+    'd,f,g,h,j,k': {l: l for l in simple[0]},
+    'd,f,g,h,j,k,r,u': {l: l for l in simple[0]},
 }
