@@ -1,4 +1,5 @@
 from time import time
+from typing import List
 
 import colors as _colors
 from pair import *
@@ -85,6 +86,7 @@ class Game:
         'player': ':|',
         'nommer': ':O',
         'runner': ':D',
+        'stone': ' '
     }
 
     def __init__(self, width: int, lang_choice: str = 'english lower'):
@@ -119,6 +121,7 @@ class Game:
         self.nommer:        Pair = None
         self.heat:           int = None
         self.runner:        Pair = None
+        self.stones:  List[Pair] = None
         self.score = tk.IntVar()
         self.losses = tk.IntVar()
         self.restart()
@@ -171,10 +174,10 @@ class Game:
         self.runner = Pair(self.width-1, 0)
 
         # 'Clear' the location for the player:
-        self.populations[self.player_tile().key.get()] -= 1
-        self.populations[self.chaser_tile().key.get()] -= 1
-        self.populations[self.nommer_tile().key.get()] -= 1
-        self.populations[self.runner_tile().key.get()] -= 1
+        for tile in [self.player_tile(), self.chaser_tile(),
+                     self.nommer_tile(), self.runner_tile()]:
+            if not self.is_character(tile):
+                self.populations[tile.key.get()] -= 1
 
         # Spawn each character:
         self.player_tile().key.set(self.__get_face_key('player'))
@@ -224,6 +227,10 @@ class Game:
         weights = {k: v for k, v in self.populations.items()
                    if not any(map(lambda s: s in self.language[k], adj))
                    and not any(map(lambda s: self.language[k] in s, adj))}
+        if not weights:
+            tile.key.set(self.__get_face_key('stone'))
+            return
+
         lower = min(weights.values())
         for k in weights:
             weights[k] = 4 ** (lower - weights[k])
@@ -590,6 +597,10 @@ class Game:
     def runner_tile(self):
         """ Just as a readability aid. """
         return self.grid[self.width * self.runner.y + self.runner.x]
+
+    def stone_tile(self, stone_pair):
+        """ Just as a readability aid. """
+        return self.grid[self.width * stone_pair.y + stone_pair.x]
 
     def is_character(self, tile: Tile):
         """ tile must not be None. """
