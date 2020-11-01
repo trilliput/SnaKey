@@ -2,9 +2,9 @@ import argparse
 from time import time
 from typing import List
 
-import colors as _colors
-from pair import *
-from languages import LANGUAGES
+from . import colors as _colors
+from .pair import *
+from .languages import LANGUAGES
 import tkinter as tk
 
 
