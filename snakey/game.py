@@ -250,18 +250,6 @@ class Game:
 
         Returns whether the player completed a round with this move.
         """
-        # The player wants to backtrack:
-        if key == 'space':
-            # Fail if trail is empty or is choked by enemy.
-            if not self.trail or self.is_character(self.trail[-1]):
-                return
-            self.__shuffle_tile(self.player_tile())
-            popped = self.trail.pop(-1)
-            self.player = popped.pos
-            self.populations[popped.key.get()] -= 1
-            popped.key.set(self.__get_face_key('player'))
-            return
-
         self.move_str += key
         adj = self.__adjacent(self.player)
         adj = list(filter(lambda t: not self.is_character(t), adj))
@@ -939,8 +927,7 @@ class SnaKeyGUI(tk.Tk):
              'Type a letter in the eight tiles',
              'adjacent to your location to move.',
              'Eat highlighted tiles to gain score',
-             'and grow your trail, which you can',
-             'use to backtrack by pressing space.', ],
+             'and grow your trail.', ],
             ['chaser',
              'The game ends if the chaser catches',
              'you, so be quick on your toes! ...',
