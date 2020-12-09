@@ -604,25 +604,6 @@ class Game:
         else:
             return face
 
-    def __move_nommer(self, hist: int):
-        """ Deprecated algorithm. """
-        # If no targets are near nommer or the chaser,
-        # predict a target location using the player's
-        # trajectory, and try to beat them to it:
-        # Not enough data. Just chase:
-        if not self.trail or len(self.trail) < hist:
-            dest = self.player
-        else:
-            dest = self.player - self.trail[-1].pos
-            for i in range(-hist, -1):
-                # Weights of past player moves decrease linearly:
-                dest += (self.trail[i+1].pos - self.trail[i].pos) * (i+hist)
-            # Try to go further ahead of player when player is far away:
-            dest *= sqrt((self.player - self.nommer).norm())
-            dest *= 2 / sum(range(1, hist + 1))
-            dest += self.player
-        return dest
-
 
 class SnaKeyGUI(tk.Tk):
     """
