@@ -1,5 +1,5 @@
 import pytest
-from SnaKey.game import weighted_choice
+from snakey.game import weighted_choice
 
 
 def test_weighted_choice_with_empty_weights():
