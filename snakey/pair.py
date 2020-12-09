@@ -7,15 +7,9 @@ class Pair:
     Represents a position in 2D grid space.
     All arguments or their contents must be integers.
     """
-    def __init__(self, x=0, y: int = 0):
-        if isinstance(x, tuple):
-            self.x = x[0]
-            self.y = x[1]
-        elif isinstance(x, int) and isinstance(y, int):
-            self.x = x
-            self.y = y
-        else:
-            raise TypeError
+    def __init__(self, x: int = 0, y: int = 0):
+        self.x = int(x)
+        self.y = int(y)
 
     def in_bound(self, x_bound, y_bound):
         return 0 <= self.x < x_bound and 0 <= self.y < y_bound
