@@ -1,6 +1,7 @@
 from time import time
 from typing import List
 
+from random import uniform
 from snakey import colors as _colors
 from snakey.pair import *
 from snakey.languages import LANGUAGES
@@ -36,7 +37,6 @@ def weighted_choice(weights: dict):
     Values in weights must be ints or floats.
     weights must not be empty.
     """
-    from random import uniform
     w_choice = uniform(0, sum(weights.values()))
     for key, weight in weights.items():
         if w_choice > weight:
