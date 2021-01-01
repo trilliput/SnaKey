@@ -9,7 +9,14 @@ An original twist on the snake game with typing.
 
 1. Install Python if you have not already done so.
 1. Clone this repository.
-1. Run [`game.py`](game.py). You can do this in a terminal, or by double clicking the file in a file explorer.
+1. Run [`run.py`](run.py). You can do this in a terminal, or by double clicking the file in a file explorer.
+
+## Development
+
+Run tests
+
+
+
 
 ## Remakes of this game
 

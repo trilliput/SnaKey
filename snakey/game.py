@@ -1,10 +1,10 @@
-import argparse
 from time import time
 from typing import List
 
-import colors as _colors
-from pair import *
-from languages import LANGUAGES
+from random import uniform
+from snakey import colors as _colors
+from snakey.pair import *
+from snakey.languages import LANGUAGES
 import tkinter as tk
 
 
@@ -37,7 +37,6 @@ def weighted_choice(weights: dict):
     Values in weights must be ints or floats.
     weights must not be empty.
     """
-    from random import uniform
     w_choice = uniform(0, sum(weights.values()))
     for key, weight in weights.items():
         if w_choice > weight:
@@ -251,18 +250,6 @@ class Game:
 
         Returns whether the player completed a round with this move.
         """
-        # The player wants to backtrack:
-        if key == 'space':
-            # Fail if trail is empty or is choked by enemy.
-            if not self.trail or self.is_character(self.trail[-1]):
-                return
-            self.__shuffle_tile(self.player_tile())
-            popped = self.trail.pop(-1)
-            self.player = popped.pos
-            self.populations[popped.key.get()] -= 1
-            popped.key.set(self.__get_face_key('player'))
-            return
-
         self.move_str += key
         adj = self.__adjacent(self.player)
         adj = list(filter(lambda t: not self.is_character(t), adj))
@@ -617,25 +604,6 @@ class Game:
         else:
             return face
 
-    def __move_nommer(self, hist: int):
-        """ Deprecated algorithm. """
-        # If no targets are near nommer or the chaser,
-        # predict a target location using the player's
-        # trajectory, and try to beat them to it:
-        # Not enough data. Just chase:
-        if not self.trail or len(self.trail) < hist:
-            dest = self.player
-        else:
-            dest = self.player - self.trail[-1].pos
-            for i in range(-hist, -1):
-                # Weights of past player moves decrease linearly:
-                dest += (self.trail[i+1].pos - self.trail[i].pos) * (i+hist)
-            # Try to go further ahead of player when player is far away:
-            dest *= sqrt((self.player - self.nommer).norm())
-            dest *= 2 / sum(range(1, hist + 1))
-            dest += self.player
-        return dest
-
 
 class SnaKeyGUI(tk.Tk):
     """
@@ -940,8 +908,7 @@ class SnaKeyGUI(tk.Tk):
              'Type a letter in the eight tiles',
              'adjacent to your location to move.',
              'Eat highlighted tiles to gain score',
-             'and grow your trail, which you can',
-             'use to backtrack by pressing space.', ],
+             'and grow your trail.', ],
             ['chaser',
              'The game ends if the chaser catches',
              'you, so be quick on your toes! ...',
@@ -1018,16 +985,3 @@ class SnaKeyGUI(tk.Tk):
         self.game.chaser_tile().color(cs['chaser'])
         self.game.nommer_tile().color(cs['nommer'])
         self.game.runner_tile().color(cs['runner'])
-
-
-def parse_cli_arguments():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-w', '--grid-width',
-                        action='store', type=int, required=False, default=10,
-                        help='Width and height of the square grid')
-    return parser.parse_args()
-
-if __name__ == '__main__':
-    arguments = parse_cli_arguments()
-    root = SnaKeyGUI(arguments.grid_width)
-    root.mainloop()
